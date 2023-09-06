@@ -14,29 +14,36 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 
 @Configuration
 public class RabbitMQConfig {
+
+  private final String USER_CREATED_QUEUE = "user.created.queue";
+  private final String USER_UPDATED_QUEUE = "user.updated.queue";
+  private final String TOPIC_EXCHANGE_NAME = "events.user";
+  private final String USER_CREATED_ROUTING_KEY = "user.created";
+  private final String USER_UPDATED_ROUTING_KEY = "user.updated";
+
   @Bean
   public TopicExchange topic() {
-    return new TopicExchange("events.user");
+    return new TopicExchange(TOPIC_EXCHANGE_NAME);
   }
 
   @Bean
   public Queue userCreatedQueue() {
-    return new Queue("user.created.queue");
+    return new Queue(USER_CREATED_QUEUE);
   }
 
   @Bean
   public Queue userUpdatedQueue() {
-    return new Queue("user.updated.queue");
+    return new Queue(USER_UPDATED_QUEUE);
   }
 
   @Bean
   public Binding userCreatedBinding(Queue userCreatedQueue, TopicExchange topic) {
-    return BindingBuilder.bind(userCreatedQueue).to(topic).with("user.created");
+    return BindingBuilder.bind(userCreatedQueue).to(topic).with(USER_CREATED_ROUTING_KEY);
   }
 
   @Bean
   public Binding userUpdatedBinding(Queue userUpdatedQueue, TopicExchange topic) {
-    return BindingBuilder.bind(userUpdatedQueue).to(topic).with("user.updated");
+    return BindingBuilder.bind(userUpdatedQueue).to(topic).with(USER_UPDATED_ROUTING_KEY);
   }
 
   @Bean
@@ -51,39 +58,4 @@ public class RabbitMQConfig {
     return rabbitTemplate;
   }
 
-  /* Don't know if this code is needed or not because it worked without it */
-
-  // @Bean
-  // SimpleMessageListenerContainer userCreatedContainer(ConnectionFactory
-  // connectionFactory,
-  // MessageListenerAdapter userCreatedListenerAdapter) {
-  // SimpleMessageListenerContainer container = new
-  // SimpleMessageListenerContainer();
-  // container.setConnectionFactory(connectionFactory);
-  // container.setQueueNames(userCreatedQueue().getName());
-  // container.setMessageListener(userCreatedListenerAdapter);
-  // return container;
-  // }
-
-  // @Bean
-  // SimpleMessageListenerContainer userUpdatedContainer(ConnectionFactory
-  // connectionFactory,
-  // MessageListenerAdapter userUpdatedListenerAdapter) {
-  // SimpleMessageListenerContainer container = new
-  // SimpleMessageListenerContainer();
-  // container.setConnectionFactory(connectionFactory);
-  // container.setQueueNames(userUpdatedQueue().getName());
-  // container.setMessageListener(userUpdatedListenerAdapter);
-  // return container;
-  // }
-
-  // @Bean
-  // MessageListenerAdapter userCreatedListenerAdapter(UserReceiver receiver) {
-  // return new MessageListenerAdapter(receiver, "handleUserCreatedMessage");
-  // }
-
-  // @Bean
-  // MessageListenerAdapter userUpdatedListenerAdapter(UserReceiver receiver) {
-  // return new MessageListenerAdapter(receiver, "handleUserUpdatedMessage");
-  // }
 }
