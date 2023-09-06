@@ -53,4 +53,9 @@ public class ReviewController {
     return reviewService.deleteById(id);
   }
 
+  @PostMapping("/{id}/like/{userId}")
+  public Review likeById(@PathVariable Long id, @PathVariable Long userId) {
+    return reviewService.likeById(id, userId);
+  }
+
 }

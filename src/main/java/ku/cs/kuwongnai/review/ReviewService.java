@@ -79,4 +79,26 @@ public class ReviewService {
     return review;
   }
 
+  public Review likeById(Long id, Long userId) {
+    Review review = reviewRepository.findById(id).orElse(null);
+
+    if (review == null) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review with the given id not found.");
+    }
+
+    User user = userRepository.findById(userId).orElse(null);
+
+    if (user == null) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with the given id not found.");
+    }
+
+    if (review.getLikes().contains(user)) {
+      review.getLikes().remove(user);
+    } else {
+      review.getLikes().add(user);
+    }
+
+    return reviewRepository.save(review);
+  }
+
 }
