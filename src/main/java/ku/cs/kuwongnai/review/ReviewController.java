@@ -37,9 +37,10 @@ public class ReviewController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public ResponseEntity<Review> create(@Valid @RequestBody ReviewRequest review) {
-    // return reviewService.create(review);
-    return new ResponseEntity<Review>(reviewService.create(review), HttpStatus.CREATED);
+  public Review create(@Valid @RequestBody ReviewRequest review) {
+    return reviewService.create(review);
+    // return new ResponseEntity<Review>(reviewService.create(review),
+    // HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
