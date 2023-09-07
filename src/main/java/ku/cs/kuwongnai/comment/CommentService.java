@@ -48,4 +48,28 @@ public class CommentService {
 
     return commentRepository.save(record);
   }
+
+  public Comment update(Long commentId, CommentUpdateRequest comment) {
+    Comment record = commentRepository.findById(commentId).orElse(null);
+
+    if (record == null) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment with the given id not found.");
+    }
+
+    record.setContent(comment.getContent());
+
+    return commentRepository.save(record);
+  }
+
+  public Comment delete(Long commentId) {
+    Comment record = commentRepository.findById(commentId).orElse(null);
+
+    if (record == null) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment with the given id not found.");
+    }
+
+    commentRepository.deleteById(commentId);
+
+    return record;
+  }
 }
