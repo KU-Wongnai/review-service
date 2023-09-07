@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import ku.cs.kuwongnai.comment.Comment;
 import ku.cs.kuwongnai.review.Review;
 import lombok.Data;
 
@@ -34,4 +35,8 @@ public class User {
   @ManyToMany(mappedBy = "likes")
   @JsonIgnore
   private List<Review> likedReviews;
+
+  @OneToMany(mappedBy = "user")
+  @JsonIgnore
+  private List<Comment> comments;
 }
