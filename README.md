@@ -4,11 +4,21 @@ Handle review from users. (This only contain basic CRUD operation, lot of things
 
 ## Setup
 
+Copy `.env.example` to `.env` and change the value to your environment.
+
+Add your JWT_SECRET to .env file, which should come from user-service.
+
+```
+JWT_SECRET=
+```
+
+````sh
+
 Run the following command to start MySQL Server at port 3306.
 
 ```sh
 docker-compose up -d
-```
+````
 
 Run the following command to start the application.
 
