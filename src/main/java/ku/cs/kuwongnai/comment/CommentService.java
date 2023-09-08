@@ -1,6 +1,5 @@
 package ku.cs.kuwongnai.comment;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,21 +22,17 @@ public class CommentService {
   @Autowired
   private UserRepository userRepository;
 
-  @Autowired
-  private ModelMapper modelMapper;
-
-  public Comment create(CommentRequest comment) {
-    // Comment record = modelMapper.map(comment, Comment.class);
+  public Comment create(CommentRequest comment, Long reviewId, Long userId) {
     Comment record = new Comment();
     record.setContent(comment.getContent());
 
-    Review review = reviewRepository.findById(comment.getReviewId()).orElse(null);
+    Review review = reviewRepository.findById(reviewId).orElse(null);
 
     if (review == null) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review with the given id not found.");
     }
 
-    User user = userRepository.findById(comment.getUserId()).orElse(null);
+    User user = userRepository.findById(userId).orElse(null);
 
     if (user == null) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with the given id not found.");
@@ -49,11 +44,15 @@ public class CommentService {
     return commentRepository.save(record);
   }
 
-  public Comment update(Long commentId, CommentUpdateRequest comment) {
+  public Comment update(Long commentId, CommentRequest comment, Long userId) {
     Comment record = commentRepository.findById(commentId).orElse(null);
 
     if (record == null) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment with the given id not found.");
+    }
+
+    if (record.getUser().getId() != userId) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the owner of the comment.");
     }
 
     record.setContent(comment.getContent());
@@ -61,11 +60,15 @@ public class CommentService {
     return commentRepository.save(record);
   }
 
-  public Comment delete(Long commentId) {
+  public Comment delete(Long commentId, Long userId) {
     Comment record = commentRepository.findById(commentId).orElse(null);
 
     if (record == null) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment with the given id not found.");
+    }
+
+    if (record.getUser().getId() != userId) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the owner of the comment.");
     }
 
     commentRepository.deleteById(commentId);

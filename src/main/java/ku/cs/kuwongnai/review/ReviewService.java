@@ -31,10 +31,10 @@ public class ReviewService {
     return reviewRepository.findById(id).orElse(null);
   }
 
-  public Review create(ReviewRequest review) {
+  public Review create(ReviewRequest review, Long userId) {
     Review record = modelMapper.map(review, Review.class);
 
-    User user = userRepository.findById(review.getUserId()).orElse(null);
+    User user = userRepository.findById(userId).orElse(null);
 
     if (user == null) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with the given id not found.");
@@ -45,7 +45,7 @@ public class ReviewService {
     return reviewRepository.save(record);
   }
 
-  public Review updateById(Long id, ReviewRequest review) {
+  public Review updateById(Long id, ReviewRequest review, Long userId) {
     // Review record = modelMapper.map(review, Review.class);
     Review record = reviewRepository.findById(id).orElse(null);
 
@@ -53,7 +53,7 @@ public class ReviewService {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review with the given id not found.");
     }
 
-    if (record.getUser().getId() != review.getUserId()) {
+    if (record.getUser().getId() != userId) {
       throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the owner of the review.");
     }
 
@@ -64,15 +64,18 @@ public class ReviewService {
     return reviewRepository.save(record);
   }
 
-  public Review deleteById(Long id) {
-    // TODO: Validate if the review exists.
+  public Review deleteById(Long id, Long userId) {
+    // Validate if the review exists.
     Review review = reviewRepository.findById(id).orElse(null);
 
     if (review == null) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review with the given id not found.");
     }
 
-    // TODO: Check if the user is the owner of the review.
+    // Check if the user is the owner of the review.
+    if (review.getUser().getId() != userId) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the owner of the review.");
+    }
 
     reviewRepository.deleteById(id);
 

@@ -30,6 +30,8 @@ mvn spring-boot:run
 
 Service run at http://localhost:8091
 
+Every route require Authorization header with JWT token. (Except GET /api/reviews/\*\*)
+
 ### Find All Reviews
 
 > GET -> http://localhost:8091/api/reviews
@@ -65,3 +67,33 @@ Service run at http://localhost:8091
 ### Delete Review
 
 > DELETE -> http://localhost:8091/api/reviews/{id}
+
+### Like Review
+
+If user already like the review, it will unlike the review.
+
+> POST -> http://localhost:8091/api/reviews/{id}/like
+
+### Create Comment
+
+> POST -> http://localhost:8091/api/reviews/{id}/comment
+
+```json
+{
+  "content": "test"
+}
+```
+
+### Update Comment
+
+> PUT -> http://localhost:8091/api/reviews/comment/{commentId}
+
+```json
+{
+  "content": "test"
+}
+```
+
+### Delete Comment
+
+> DELETE -> http://localhost:8091/api/reviews/comment/{commentId}
