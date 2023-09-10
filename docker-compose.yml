@@ -1,5 +1,19 @@
 version: "3.9"
 services:
+  review_service_server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: review_service_server
+    restart: on-failure
+    ports:
+      - 8091:8091
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/review
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - mysql
+
   mysql:
     image: mysql
     container_name: mysql
