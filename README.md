@@ -58,7 +58,15 @@ Every route require Authorization header with JWT token. (Except GET /api/review
 {
   "title": "Good",
   "content": "test",
-  "rating": 4
+  "rating": 4,
+  "images": [
+    {
+      "imageUrl": "https://www.wongnai.com/blog/content/uploads/2019/10/cover-1.jpg"
+    },
+    {
+      "imageUrl": "https://www.wongnai.com/blog/content/uploads/2019/10/cover-1.jpg"
+    }
+  ]
 }
 ```
 

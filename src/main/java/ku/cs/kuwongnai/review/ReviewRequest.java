@@ -1,8 +1,12 @@
 package ku.cs.kuwongnai.review;
 
+import java.util.List;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import ku.cs.kuwongnai.image.Image;
+import ku.cs.kuwongnai.image.ImageRequest;
 import lombok.Data;
 
 @Data
@@ -21,4 +25,6 @@ public class ReviewRequest {
   @Min(0)
   @Max(5)
   private double rating;
+
+  private List<ImageRequest> images;
 }
