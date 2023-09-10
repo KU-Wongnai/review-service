@@ -20,6 +20,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import ku.cs.kuwongnai.comment.Comment;
+import ku.cs.kuwongnai.image.Image;
 import ku.cs.kuwongnai.user.User;
 import lombok.Data;
 
@@ -53,6 +54,9 @@ public class Review {
 
   @OneToMany(mappedBy = "review")
   private List<Comment> comments;
+
+  @OneToMany(mappedBy = "review")
+  private List<Image> images;
 
   @CreationTimestamp
   @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
