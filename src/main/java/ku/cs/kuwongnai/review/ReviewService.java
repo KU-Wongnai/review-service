@@ -59,6 +59,12 @@ public class ReviewService {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant with the given id not found.");
     }
 
+    Review existReview = reviewRepository.findByUserIdAndRestaurantId(userId, restaurantId);
+
+    if (existReview != null) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "You already reviewed this restaurant.");
+    }
+
     Review record = new Review();
     record.setTitle(review.getTitle());
     record.setContent(review.getContent());
