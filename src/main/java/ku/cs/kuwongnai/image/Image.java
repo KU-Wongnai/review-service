@@ -1,11 +1,9 @@
 package ku.cs.kuwongnai.image;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.cglib.core.Local;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,8 +13,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import ku.cs.kuwongnai.review.Review;
 import lombok.Data;
