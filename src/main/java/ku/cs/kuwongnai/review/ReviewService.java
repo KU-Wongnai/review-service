@@ -1,9 +1,7 @@
 package ku.cs.kuwongnai.review;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,9 +24,6 @@ public class ReviewService {
   @Autowired
   private ImageRepository imageRepository;
 
-  @Autowired
-  private ModelMapper modelMapper;
-
   public List<Review> findAll() {
     return reviewRepository.findAll();
   }
@@ -38,8 +33,6 @@ public class ReviewService {
   }
 
   public Review create(ReviewRequest review, Long userId) {
-    // Review record = modelMapper.map(review, Review.class);
-
     User user = userRepository.findById(userId).orElse(null);
 
     if (user == null) {
@@ -67,7 +60,6 @@ public class ReviewService {
   }
 
   public Review updateById(Long id, ReviewRequest review, Long userId) {
-    // Review record = modelMapper.map(review, Review.class);
     Review record = reviewRepository.findById(id).orElse(null);
 
     if (record == null) {
