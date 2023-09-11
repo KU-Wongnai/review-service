@@ -12,13 +12,13 @@ Add your `JWT_SECRET` to `.env` file, which should come from user-service.
 JWT_SECRET=
 ```
 
-Run the following command to start MySQL Server at port 3306.
+Run the following command to start everything inside docker container.
 
 ```sh
 docker-compose up -d
 ```
 
-Run the following command to start the application.
+Or run with the following command to start the application locally.
 
 ```sh
 mvn spring-boot:run
@@ -92,7 +92,7 @@ If user already like the review, it will unlike the review.
 
 ### Update Comment
 
-> PUT -> http://localhost:8091/api/reviews/comment/{commentId}
+> PUT -> http://localhost:8091/api/comment/{commentId}
 
 ```json
 {
@@ -102,4 +102,4 @@ If user already like the review, it will unlike the review.
 
 ### Delete Comment
 
-> DELETE -> http://localhost:8091/api/reviews/comment/{commentId}
+> DELETE -> http://localhost:8091/api/comment/{commentId}
