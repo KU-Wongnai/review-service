@@ -20,44 +20,49 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 @RestController
-@RequestMapping("/api/reviews")
+@RequestMapping("/api")
 public class ReviewController {
 
   @Autowired
   private ReviewService reviewService;
 
-  @GetMapping
+  @GetMapping("/reviews")
   public List<Review> findAll() {
     return reviewService.findAll();
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/reviews/{id}")
   public Review findById(@PathVariable Long id) {
     return reviewService.findById(id);
   }
 
-  @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  public Review create(@Valid @RequestBody ReviewRequest review, @AuthenticationPrincipal Jwt jwt) {
-
-    String userId = (String) jwt.getClaims().get("sub");
-    return reviewService.create(review, Long.parseLong(userId));
+  @GetMapping("/restaurant/{restaurantId}/reviews")
+  public List<Review> findAllFromRestaurant(@PathVariable Long restaurantId) {
+    return reviewService.findAllFromRestaurant(restaurantId);
   }
 
-  @PutMapping("/{id}")
+  @PostMapping("/restaurant/{restaurantId}/reviews")
+  @ResponseStatus(HttpStatus.CREATED)
+  public Review create(@PathVariable Long restaurantId, @Valid @RequestBody ReviewRequest review,
+      @AuthenticationPrincipal Jwt jwt) {
+    String userId = (String) jwt.getClaims().get("sub");
+    return reviewService.create(review, Long.parseLong(userId), restaurantId);
+  }
+
+  @PutMapping("/reviews/{id}")
   public Review updateById(@PathVariable Long id, @Valid @RequestBody ReviewRequest review,
       @AuthenticationPrincipal Jwt jwt) {
     String userId = (String) jwt.getClaims().get("sub");
     return reviewService.updateById(id, review, Long.parseLong(userId));
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/reviews/{id}")
   public Review deleteById(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
     String userId = (String) jwt.getClaims().get("sub");
     return reviewService.deleteById(id, Long.parseLong(userId));
   }
 
-  @PostMapping("/{id}/like")
+  @PostMapping("/reviews/{id}/like")
   public Review likeById(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
     String userId = (String) jwt.getClaims().get("sub");
     return reviewService.likeById(id, Long.parseLong(userId));

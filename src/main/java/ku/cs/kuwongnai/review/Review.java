@@ -21,6 +21,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import ku.cs.kuwongnai.comment.Comment;
 import ku.cs.kuwongnai.image.Image;
+import ku.cs.kuwongnai.restaurant.Restaurant;
 import ku.cs.kuwongnai.user.User;
 import lombok.Data;
 
@@ -35,6 +36,10 @@ public class Review {
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
+
+  @ManyToOne
+  @JoinColumn(name = "restaurant_id", nullable = false)
+  private Restaurant restaurant;
 
   @NotNull
   private String title;

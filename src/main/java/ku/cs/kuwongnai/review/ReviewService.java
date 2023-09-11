@@ -9,6 +9,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import ku.cs.kuwongnai.image.Image;
 import ku.cs.kuwongnai.image.ImageRepository;
+import ku.cs.kuwongnai.restaurant.Restaurant;
+import ku.cs.kuwongnai.restaurant.RestaurantRepository;
 import ku.cs.kuwongnai.user.User;
 import ku.cs.kuwongnai.user.UserRepository;
 
@@ -24,6 +26,9 @@ public class ReviewService {
   @Autowired
   private ImageRepository imageRepository;
 
+  @Autowired
+  private RestaurantRepository restaurantRepository;
+
   public List<Review> findAll() {
     return reviewRepository.findAll();
   }
@@ -32,11 +37,26 @@ public class ReviewService {
     return reviewRepository.findById(id).orElse(null);
   }
 
-  public Review create(ReviewRequest review, Long userId) {
+  public List<Review> findAllFromRestaurant(Long restaurantId) {
+    Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
+
+    if (restaurant == null) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant with the given id not found.");
+    }
+
+    return restaurant.getReviews();
+  }
+
+  public Review create(ReviewRequest review, Long userId, Long restaurantId) {
     User user = userRepository.findById(userId).orElse(null);
+    Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
 
     if (user == null) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with the given id not found.");
+    }
+
+    if (restaurant == null) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant with the given id not found.");
     }
 
     Review record = new Review();
@@ -55,6 +75,7 @@ public class ReviewService {
     }
 
     record.setUser(user);
+    record.setRestaurant(restaurant);
 
     return reviewRepository.save(record);
   }
