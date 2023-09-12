@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -24,15 +25,15 @@ public class User {
   private LocalDateTime emailVerifiedAt;
   private String avatar;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
   private List<Review> reviews;
 
-  @ManyToMany(mappedBy = "likes")
+  @ManyToMany(mappedBy = "likes", cascade = CascadeType.ALL)
   @JsonIgnore
   private List<Review> likedReviews;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
   private List<Comment> comments;
 }

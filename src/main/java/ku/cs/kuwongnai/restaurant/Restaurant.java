@@ -2,6 +2,7 @@ package ku.cs.kuwongnai.restaurant;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -15,6 +16,6 @@ public class Restaurant {
   @Id
   private Long id;
 
-  @OneToMany(mappedBy = "restaurant")
+  @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Review> reviews;
 }

@@ -57,7 +57,7 @@ public class ReviewController {
   }
 
   @DeleteMapping("/reviews/{id}")
-  public Review deleteById(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
+  public String deleteById(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
     String userId = (String) jwt.getClaims().get("sub");
     return reviewService.deleteById(id, Long.parseLong(userId));
   }

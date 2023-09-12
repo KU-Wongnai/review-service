@@ -114,7 +114,7 @@ public class ReviewService {
     return reviewRepository.save(record);
   }
 
-  public Review deleteById(Long id, Long userId) {
+  public String deleteById(Long id, Long userId) {
     // Validate if the review exists.
     Review review = reviewRepository.findById(id).orElse(null);
 
@@ -129,7 +129,7 @@ public class ReviewService {
 
     reviewRepository.deleteById(id);
 
-    return review;
+    return "Review deleted successfully.";
   }
 
   public Review likeById(Long id, Long userId) {
