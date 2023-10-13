@@ -23,6 +23,7 @@ public class SecurityConfig {
     return http
         .authorizeHttpRequests(requests -> requests
             .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/restaurant/**").permitAll()
             .anyRequest().authenticated())
 
         .oauth2ResourceServer(oauth2 -> oauth2
