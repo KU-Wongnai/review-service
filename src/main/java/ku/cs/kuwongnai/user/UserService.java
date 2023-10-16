@@ -21,9 +21,7 @@ public class UserService {
   }
 
   public User update(UserRequest user) {
-    // User record = userRepository.findById(user.getId()).orElse(null);
-
-    User record = new User();
+    User record = userRepository.findById(user.getId()).orElseThrow();
 
     record.setName(user.getName());
     record.setEmail(user.getEmail());
