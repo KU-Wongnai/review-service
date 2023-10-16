@@ -1,5 +1,6 @@
 package ku.cs.kuwongnai.restaurant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -17,5 +18,5 @@ public class Restaurant {
   private Long id;
 
   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Review> reviews;
+  private List<Review> reviews = new ArrayList<>();
 }

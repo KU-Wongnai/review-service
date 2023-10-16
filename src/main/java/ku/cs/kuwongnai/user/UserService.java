@@ -9,12 +9,21 @@ public class UserService {
   @Autowired
   private UserRepository userRepository;
 
-  public User create(User user) {
-    return userRepository.save(user);
+  public User create(UserRequest user) {
+    User record = new User();
+    record.setId(user.getId());
+    record.setName(user.getName());
+    record.setEmail(user.getEmail());
+    record.setEmailVerifiedAt(user.getEmailVerifiedAt());
+    record.setAvatar(user.getAvatar());
+
+    return userRepository.save(record);
   }
 
-  public User update(User user) {
-    User record = userRepository.findById(user.getId()).orElse(null);
+  public User update(UserRequest user) {
+    // User record = userRepository.findById(user.getId()).orElse(null);
+
+    User record = new User();
 
     record.setName(user.getName());
     record.setEmail(user.getEmail());

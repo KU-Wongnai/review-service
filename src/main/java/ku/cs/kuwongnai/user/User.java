@@ -1,6 +1,7 @@
 package ku.cs.kuwongnai.user;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,13 +28,13 @@ public class User {
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
-  private List<Review> reviews;
+  private List<Review> reviews = new ArrayList<>();
 
   @ManyToMany(mappedBy = "likes", cascade = CascadeType.ALL)
   @JsonIgnore
-  private List<Review> likedReviews;
+  private List<Review> likedReviews = new ArrayList<>();
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
-  private List<Comment> comments;
+  private List<Comment> comments = new ArrayList<>();
 }
