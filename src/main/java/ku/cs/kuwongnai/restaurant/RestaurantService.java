@@ -15,11 +15,13 @@ public class RestaurantService {
     return restaurantRepository.findById(id).orElse(null);
   }
 
-  public Restaurant createRestaurant(Restaurant restaurant) {
-    return restaurantRepository.save(restaurant);
+  public Restaurant createRestaurant(RestaurantRequest restaurant) {
+    Restaurant record = new Restaurant();
+    record.setId(restaurant.getId());
+    return restaurantRepository.save(record);
   }
 
-  public Restaurant updateRestaurant(Restaurant restaurant) {
+  public Restaurant updateRestaurant(RestaurantRequest restaurant) {
     Restaurant record = restaurantRepository.findById(restaurant.getId()).orElse(null);
 
     if (record == null) {
@@ -28,7 +30,7 @@ public class RestaurantService {
 
     record.setId(restaurant.getId());
 
-    return restaurantRepository.save(restaurant);
+    return restaurantRepository.save(record);
   }
 
   public void deleteRestaurant(Long id) {

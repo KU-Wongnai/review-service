@@ -11,14 +11,14 @@ public class RestaurantReceiver {
   private RestaurantService restaurantService;
 
   @RabbitListener(queues = "#{restaurantCreatedQueue.name}")
-  public void handleRestaurantCreatedMessage(Restaurant restaurant) {
+  public void handleRestaurantCreatedMessage(RestaurantRequest restaurant) {
     // Handle restaurant created
     restaurantService.createRestaurant(restaurant);
     System.out.println("From Restaurant Service : Restaurant has been created");
   }
 
   @RabbitListener(queues = "#{restaurantUpdatedQueue.name}")
-  public void handleRestaurantUpdatedMessage(Restaurant restaurant) {
+  public void handleRestaurantUpdatedMessage(RestaurantRequest restaurant) {
     // Handle restaurant updated message
     restaurantService.updateRestaurant(restaurant);
     System.out.println("From Restaurant Service : Restaurant has been updated");
