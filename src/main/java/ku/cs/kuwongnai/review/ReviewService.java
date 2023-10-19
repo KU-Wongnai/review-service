@@ -46,7 +46,6 @@ public class ReviewService {
 
     return restaurant.getReviews();
   }
-
   public Review create(ReviewRequest review, Long userId, Long restaurantId) {
     User user = userRepository.findById(userId).orElse(null);
     Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
@@ -69,21 +68,25 @@ public class ReviewService {
     record.setTitle(review.getTitle());
     record.setContent(review.getContent());
     record.setRating(review.getRating());
+    record.setUser(user);
+    record.setRestaurant(restaurant);
 
-    // Save review images if it exists.
+// Save the review first to generate an ID
+    record = reviewRepository.save(record);
+
+// Then save the images with the reference to the saved review
     if (review.getImages() != null) {
+      Review finalRecord = record;
       review.getImages().forEach(imageRequest -> {
         Image image = new Image();
         image.setImageUrl(imageRequest.getImageUrl());
-        image.setReview(record);
+        image.setReview(finalRecord);  // now 'record' has an ID
         imageRepository.save(image);
       });
     }
 
-    record.setUser(user);
-    record.setRestaurant(restaurant);
+    return record;
 
-    return reviewRepository.save(record);
   }
 
   public Review updateById(Long id, ReviewRequest review, Long userId) {
