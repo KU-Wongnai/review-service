@@ -22,10 +22,8 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
         .authorizeHttpRequests(requests -> requests
-            .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/api/restaurant/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/restaurant/*/reviews", "/api/reviews/**").permitAll()
             .anyRequest().authenticated())
-
         .oauth2ResourceServer(oauth2 -> oauth2
             .jwt(jwtSpec -> jwtSpec.decoder(jwtDecoder())))
         .build();
