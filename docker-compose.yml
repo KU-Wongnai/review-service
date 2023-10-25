@@ -9,14 +9,14 @@ services:
     ports:
       - 8091:8091
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/review_service
-      RABBITMQ_HOST: rabbitmq
-      RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: user
-      RABBITMQ_PASSWORD: password
+      SPRING_DATASOURCE_URL: "${SPRING_DATASOURCE_URL:-jdbc:mysql://mysql:3306/review_service}"
+      SPRING_DATASOURCE_USERNAME: "${SPRING_DATASOURCE_USERNAME:-root}"
+      SPRING_DATASOURCE_PASSWORD: "${SPRING_DATASOURCE_PASSWORD:-root}"
+      RABBITMQ_HOST: "${RABBITMQ_HOST:-rabbitmq}"
+      RABBITMQ_PORT: "${RABBITMQ_PORT:-5672}"
+      RABBITMQ_USERNAME: "${RABBITMQ_USERNAME:-user}"
+      RABBITMQ_PASSWORD: "${RABBITMQ_PASSWORD:-password}"
       JWT_SECRET: ${JWT_SECRET}
-    depends_on:
-      # - mysql
     networks:
       - ku-wongnai_ku-wongnai
 
